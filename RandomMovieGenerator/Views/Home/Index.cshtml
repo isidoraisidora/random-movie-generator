@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <div class="col-md-12 d-flex justify-content-center">
+        <div class="text-center">
+            <div class="row mb-3 mt-3 text-center d-flex justify-content-center">
+                Choose a genre:<br />
+            </div>
+            <div class="row mb-3">
+                @Html.DropDownList("genre", new SelectList(new List<string> { "Romance", "Drama", "Action", "Thriller", "Comedy" }), "-- Select Genre --") <br />
+            </div>
+            <div class="row mb-3 mt-3 text-center d-flex justify-content-center">
+                <button type="submit" id="button">Submit</button>
+            </div>
+        </div>
+    </div>
+}
+
+

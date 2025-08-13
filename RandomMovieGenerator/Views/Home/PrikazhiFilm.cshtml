@@ -1,0 +1,141 @@
+﻿    @model RandomMovieGenerator.Models.Movie
+
+    @{
+        string trailerUrl = Model.Trailer;
+        string embedUrl = "";
+
+        if (!string.IsNullOrEmpty(trailerUrl))
+        {
+            string videoId = "";
+
+            if (trailerUrl.Contains("watch?v="))
+            {
+                videoId = trailerUrl.Split(new[] { "watch?v=" }, StringSplitOptions.None).Last();
+                if (videoId.Contains("&"))
+                {
+                    videoId = videoId.Split('&')[0];
+                }
+            }
+            else if (trailerUrl.Contains("youtu.be/"))
+            {
+                videoId = trailerUrl.Split(new[] { "youtu.be/" }, StringSplitOptions.None).Last();
+                if (videoId.Contains("?"))
+                {
+                    videoId = videoId.Split('?')[0];
+                }
+            }
+
+            if (!string.IsNullOrEmpty(videoId))
+            {
+                embedUrl = $"https://www.youtube.com/embed/{videoId}";
+            }
+        }
+    }
+
+
+
+
+    @if (Model != null)
+    {
+        <div class="container mt-5">
+            <h3 class="text-center mb-4">The film you should watch is...</h3>
+            <div class="row align-items-center gx-4">
+                <div class="col-md-6 d-flex justify-content-end">
+                    <img data-bs-toggle="modal" style="cursor: pointer; max-height: 300px;" data-bs-target="#trailerModal" title="Click here to watch the trailer!" src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded mb-3" />
+                </div>
+                <div class="col-md-4 gx-0">
+                    <div class="row">
+                        <h5 class="col-sm-4">Title:</h5>
+                        <span class="col-sm-8">@Model.Name</span><br />
+
+                        <h5 class="col-sm-4">Genre:</h5>
+                        <span class="col-sm-8">@Model.Genre</span><br />
+
+                        <h5 class="col-sm-4">Release Year:</h5>
+                        <span class="col-sm-8">@Model.ReleaseYear</span><br />
+
+                        <h5 class="col-sm-4">Duration:</h5>
+                        <span class="col-sm-8">@Model.Duration mins</span><br />
+
+                        <h5 class="col-sm-4">Rating:</h5>
+                        <span class="col-sm-8">@Model.Rating/5</span><br />
+                    </div>
+                </div>
+                    
+            </div>
+        
+            <div class="text-center col-12 d-flex justify-content-center gap-2 flex-wrap mt-3">
+                @using (Html.BeginForm("AddToWatchlist", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.Name)
+                    @Html.HiddenFor(m => m.Genre)
+                    @Html.HiddenFor(m => m.ImageUrl)
+                    @Html.HiddenFor(m => m.ReleaseYear)
+                    @Html.HiddenFor(m => m.Duration)
+                    @Html.HiddenFor(m => m.Rating)
+                    @Html.HiddenFor(m => m.Trailer)
+
+                    <button type="submit" id="button1" class="btn btn-info">Add to Watchlist</button>
+                }
+
+                <a href="@Url.Action("Index", "Home")" class="btn btn-info" id="button1">Try Another</a>
+
+
+                @using (Html.BeginForm("Watched", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(m => m.Id)
+                    @Html.HiddenFor(m => m.Name)
+                    @Html.HiddenFor(m => m.Genre)
+                    @Html.HiddenFor(m => m.ImageUrl)
+                    @Html.HiddenFor(m => m.ReleaseYear)
+                    @Html.HiddenFor(m => m.Duration)
+                    @Html.HiddenFor(m => m.Rating)
+                    @Html.HiddenFor(m => m.Trailer)
+
+                    <button type="submit" id="button1" class="btn btn-info">Add to Watched</button>
+                }
+
+
+            </div>
+        </div>
+    }
+    else
+    {
+        <p class="text-center mt-5">@ViewBag.Message</p>
+    }
+
+    <div class="modal fade" id="trailerModal" tabindex="-1" aria-labelledby="trailerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="trailerModalLabel">Trailer</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe id="trailerFrame" src="@embedUrl" title="YouTube trailer" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @section Scripts {
+        <script>
+        const trailerUrl = "@embedUrl";
+
+        const trailerModal = document.getElementById('trailerModal');
+        const trailerFrame = document.getElementById('trailerFrame');
+
+        trailerModal.addEventListener('show.bs.modal', function () {
+            trailerFrame.src = trailerUrl;
+        });
+
+        trailerModal.addEventListener('hidden.bs.modal', function () {
+            trailerFrame.src = "";
+        });
+        </script>
+    }
