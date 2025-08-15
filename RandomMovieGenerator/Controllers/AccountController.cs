@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -20,6 +21,32 @@ namespace RandomMovieGenerator.Controllers
 
         public AccountController()
         {
+        }
+
+        public ActionResult AddUserToRole()
+        {
+            AddToRoleModel model = new AddToRoleModel();
+            model.Roles = new List<string>() { "Admin"};
+            using (var context = new ApplicationDbContext())
+            {
+                model.Emails = context.Users
+                                      .Select(u => u.Email)
+                                      .ToList();
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult AddUserToRole(AddToRoleModel model)
+        {
+            var email = model.Email;
+            var user = UserManager.FindByEmail(email);
+            if (user == null)
+            {
+                throw new HttpException(404, "There is no user with the email: " + email);
+            }
+            UserManager.AddToRole(user.Id, model.SelectedRole);
+            return RedirectToAction("Index", "Home");
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )

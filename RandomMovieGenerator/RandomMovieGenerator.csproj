@@ -383,8 +383,14 @@
     <Content Include="Content\DataTables\images\sort_desc.png" />
     <Content Include="Content\DataTables\images\sort_desc_disabled.png" />
     <Content Include="Content\DataTables\swf\flashExport.swf" />
+    <Content Include="Content\favicon.png" />
     <Content Include="Content\style.css" />
-    <Content Include="favicon.ico" />
+    <Content Include="favicon_io\android-chrome-192x192.png" />
+    <Content Include="favicon_io\android-chrome-512x512.png" />
+    <Content Include="favicon_io\apple-touch-icon.png" />
+    <Content Include="favicon_io\favicon-16x16.png" />
+    <Content Include="favicon_io\favicon-32x32.png" />
+    <Content Include="favicon_io\favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Scripts\bootbox.js" />
@@ -398,6 +404,7 @@
     <Content Include="Content\DataTables\css\semanticui.scss" />
     <Content Include="Content\DataTables\css\mixins.scss" />
     <Content Include="Content\DataTables\css\common.scss" />
+    <Content Include="favicon_io\site.webmanifest" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.js" />
     <Content Include="Scripts\DataTables\autoFill.bootstrap.min.js" />
@@ -522,6 +529,8 @@
     <Content Include="Views\Home\PrikazhiFilm.cshtml" />
     <Content Include="Views\Home\Watched.cshtml" />
     <Content Include="Views\Home\AddToWatchlist.cshtml" />
+    <Content Include="Views\Account\AddUserToRole.cshtml" />
+    <Content Include="Views\Home\CreateMovie.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

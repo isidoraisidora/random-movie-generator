@@ -1,0 +1,62 @@
+﻿@model RandomMovieGenerator.Models.Movie
+@{
+    ViewBag.Title = "CreateMovie";
+}
+
+<h2>Create a new movie:</h2>
+
+@using (Html.BeginForm("CreateMovie", "Home",FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name)
+        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ImageUrl)
+        @Html.TextBoxFor(m => m.ImageUrl, new { @class = "form-control"})
+        @Html.ValidationMessageFor(m => m.ImageUrl)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Genre)
+        @Html.TextBoxFor(m => m.Genre, new { @class = "form-control"})
+        @Html.ValidationMessageFor(m => m.Genre)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Rating)
+        @Html.TextBoxFor(m => m.Rating, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Rating)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Director)
+        @Html.TextBoxFor(m => m.Director, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Director)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Duration)
+        @Html.TextBoxFor(m => m.Duration, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Duration)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ReleaseYear)
+        @Html.TextBoxFor(m => m.ReleaseYear, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ReleaseYear)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Trailer)
+        @Html.TextBoxFor(m => m.Trailer, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Trailer)
+    </div>
+    <button type="submit" class="btn btn-primary">Add Movie</button>
+
+}
+

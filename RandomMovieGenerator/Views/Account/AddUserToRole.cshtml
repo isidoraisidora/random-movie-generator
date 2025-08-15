@@ -1,0 +1,32 @@
+﻿@model RandomMovieGenerator.Models.AddToRoleModel
+@{
+    ViewBag.Title = "AddUserToRole";
+}
+
+<h2>Add user with this email to the role:</h2>
+
+@using (Html.BeginForm("AddUserToRole", "Account"))
+{
+    <div class="form-group">
+        Email:
+        @Html.DropDownListFor(
+            m => m.Email,
+            new SelectList(Model.Emails),
+            "--Select an email--",
+            new { @class = "form-control"}
+        )
+    </div>
+    <div class="form-group">
+        Role:
+        @Html.DropDownListFor(
+            m => m.SelectedRole,
+            new SelectList(Model.Roles),
+            "--Select a role--",
+            new {@class = "form-control"}
+        )
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+
+}
+

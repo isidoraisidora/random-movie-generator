@@ -237,6 +237,26 @@ namespace RandomMovieGenerator.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult CreateMovie()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateMovie(Movie model)
+        {
+            if (ModelState.IsValid)
+            {
+                using (var db = new ApplicationDbContext())
+                {
+                    db.Movies.Add(model);
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
 
     }
 }

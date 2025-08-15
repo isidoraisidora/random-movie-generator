@@ -7,6 +7,9 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <link href="~/Content/style.css" rel="stylesheet" />
+    <link rel="icon" href="~/favicon_io/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="~/favicon_io/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/favicon_io/favicon-16x16.png">
 
 </head>
 <body>
@@ -21,6 +24,12 @@
                 <ul class="navbar-nav flex-grow-1">
                     <li>@Html.ActionLink("Watchlist", "AddToWatchlist", "Home", new { area = "" }, new { @class = "nav-link" })</li>
                     <li>@Html.ActionLink("Watched", "Watched", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    @if (User.IsInRole("admin"))
+                    {
+                        <li>
+                            @Html.ActionLink("Create a movie", "CreateMovie", "Home", new { area = "" }, new { @class = "nav-link" })
+                        </li>
+                    }
                 </ul>
                  @Html.Partial("_LoginPartial")
             </div>
