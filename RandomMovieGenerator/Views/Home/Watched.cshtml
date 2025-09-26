@@ -6,7 +6,7 @@
 }
 
 <div class="container mt-5">
-    <h2 class="mb-4">Your watched movies:</h2>
+    <h2 class="mb-4 text-center">Your watched movies:</h2>
     @Html.AntiForgeryToken()
 
 
@@ -16,96 +16,99 @@
     }
     else
     {
-        <table class="table table-bordered table-striped" id="tabela1">
-            <thead>
+<div class="table-responsive">
+    <table class="table table-bordered table-striped" id="tabela1">
+        <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Name</th>
+                <th>Release Year</th>
+                <th>Director</th>
+                <th>Duration</th>
+                <th>Genre</th>
+                <th>Average Rating</th>
+                <th>Your rating</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var movie in Model)
+            {
+
+                var modalId = $"ratingModal_{movie.Id}";
                 <tr>
-                    <th>Poster</th>
-                    <th>Name</th>
-                    <th>Release Year</th>
-                    <th>Director</th>
-                    <th>Duration</th>
-                    <th>Genre</th>
-                    <th>Average Rating</th>
-                    <th>Your rating</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var movie in Model)
-                {
+                    <td>
+                        <img src="@movie.ImageUrl" alt="@movie.Name" style="height: 100px;" class="slika"/>
+                    </td>
+                    <td>@movie.Name</td>
+                    <td>@movie.ReleaseYear</td>
+                    <td>@movie.Director</td>
+                    <td>@movie.Duration</td>
+                    <td>@movie.Genre</td>
+                    <td>@movie.Rating</td>
+                    <td data-order="@(movie.YourRating ?? 0)">
+                        <span class="star-display mb-2 d-block">
+                            @for (int i = 1; i <= 5; i++)
+                            {
+                                <span style="color:@(i <= movie.YourRating ? "gold" : "#ccc")">★</span>
+                            }
+                        </span>
 
-                    var modalId = $"ratingModal_{movie.Id}";
-                    <tr>
-                        <td>
-                            <img src="@movie.ImageUrl" alt="@movie.Name" style="height: 100px;" />
-                        </td>
-                        <td>@movie.Name</td>
-                        <td>@movie.ReleaseYear</td>
-                        <td>@movie.Director</td>
-                        <td>@movie.Duration</td>
-                        <td>@movie.Genre</td>
-                        <td>@movie.Rating</td>
-                        <td data-order="@(movie.YourRating ?? 0)">
-                            <span class="star-display mb-2 d-block">
-                                @for (int i = 1; i <= 5; i++)
-                                {
-                                    <span style="color:@(i <= movie.YourRating ? "gold" : "#ccc")">★</span>
-                                }
-                            </span>
 
-                          
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@($"{modalId}_Label")" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form method="post" action="/Home/SubmitRating">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="@($"{modalId}_Label")">Rate "@movie.Name"</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="@modalId" tabindex="-1" aria-labelledby="@($"{modalId}_Label")" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form method="post" action="/Home/SubmitRating">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="@($"{modalId}_Label")">Rate "@movie.Name"</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <input type="hidden" name="movieId" value="@movie.Id" />
+                                            <div class="star-rating">
+                                                @for (int i = 5; i >= 1; i--)
+                                                {
+                                                    var inputId = $"star{i}-{movie.Id}";
+                                                    var isChecked = (movie.YourRating == i) ? "checked" : "";
+                                                    <input type="radio" id="@inputId" name="rating" value="@i" @Html.Raw(isChecked) />
+                                                    <label for="@inputId" title="@($"{i} star{(i > 1 ? "s" : "")}")">★</label>
+                                                }
                                             </div>
-                                            <div class="modal-body text-center">
-                                                <input type="hidden" name="movieId" value="@movie.Id" />
-                                                <div class="star-rating">
-                                                    @for (int i = 5; i>=1; i--)
-                                                    {
-                                                        var inputId = $"star{i}-{movie.Id}";
-                                                        var isChecked = (movie.YourRating == i) ? "checked" : "";
-                                                        <input type="radio" id="@inputId" name="rating" value="@i" @Html.Raw(isChecked) />
-                                                        <label for="@inputId" title="@($"{i} star{(i > 1 ? "s" : "")}")">★</label>
-                                                    }
-                                                </div>
 
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-primary">Submit Rating</button>
-                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                            </div>
-                                        </form>
-                                    </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-primary">Submit Rating</button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-                        </td>
+                        </div>
+                    </td>
 
-                        <td>
-                            <div class="d-flex justify-content-center gap-2 flex-wrap">
-                                <button type="button" class="btn btn-danger" id="js-delete" data-movie-id="@movie.Id">Remove</button>
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#@modalId">
-                                    @(movie.YourRating != null ? "Change Rating" : "Add Rating")
-                                </button>
-                                @if (movie.YourRating != null)
-                                {
-                                    <button type="submit" class="btn btn-check" id="js-change" data-movie-id="@movie.Id">Change rating</button>
-                                }
-                            </div>
-                            
+                    <td>
+                        <div class="d-flex justify-content-center gap-2 flex-wrap">
+                            <button type="button" class="btn btn-danger" id="js-delete" data-movie-id="@movie.Id">Remove</button>
+                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#@modalId" id="js-add">
+                                @(movie.YourRating != null ? "Change Rating" : "Add Rating")
+                            </button>
+                            @if (movie.YourRating != null)
+                            {
+                                <button type="submit" class="btn btn-check" id="js-change" data-movie-id="@movie.Id">Change rating</button>
+                            }
+                        </div>
 
-                        </td>
-                    </tr>
-                }
-            </tbody>
 
-        </table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
+</div>
+        
     }
 </div>
 

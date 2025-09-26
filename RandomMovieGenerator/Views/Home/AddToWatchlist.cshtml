@@ -1,11 +1,13 @@
 ﻿@model List<RandomMovieGenerator.Models.Movie>
 
+
 @{
     ViewBag.Title = "Your Watchlist";
 }
 
+
 <div class="container mt-5">
-    <h2 class="mb-4">Your Watchlist:</h2>
+    <h2 class="mb-4 text-center">Your Watchlist:</h2>
     @Html.AntiForgeryToken()
 
 
@@ -15,47 +17,68 @@
     }
     else
     {
-        <table class="table table-bordered table-striped" id="tabela1">
-            <thead>
-                <tr>
-                    <th>Poster</th>
-                    <th>Name</th>
-                    <th>Release Year</th>
-                    <th>Director</th>
-                    <th>Duration</th>
-                    <th>Genre</th>
-                    <th>Rating</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var movie in Model)
-                {
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped" id="tabela1">
+                <thead>
                     <tr>
-                        <td>
-                            <img src="@movie.ImageUrl" alt="@movie.Name" style="height: 100px;" />
-                        </td>
-                        <td>@movie.Name</td>
-                        <td>@movie.ReleaseYear</td>
-                        <td>@movie.Director</td>
-                        <td>@movie.Duration</td>
-                        <td>@movie.Genre</td>
-                        <td>@movie.Rating</td>
-                        <td>
-                            <div class="text-center d-flex justify-content-center mb-3">
-                                <button class="btn btn-success" type="submit" id="js-move" data-movie-id="@movie.Id">Move to Watched</button><hr />
-                            </div>
-                            <div class="text-center d-flex justify-content-center">
-                                <button class="btn btn-danger" type="submit" id="js-delete" data-movie-id="@movie.Id">Remove</button>
-                            </div>
-                            
-                        </td>
+                        <th>Poster</th>
+                        <th>Name</th>
+                        <th>Release Year</th>
+                        <th>Director</th>
+                        <th>Duration</th>
+                        <th>Genre</th>
+                        <th>Rating</th>
+                        <th>Actions</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var movie in Model)
+                    {
+                        <tr>
+                            <td>
+                                <img src="@movie.ImageUrl" alt="@movie.Name" style="height: 100px; cursor:pointer;" class="slika" data-trailer-url="@movie.Trailer"/>
+                            </td>
+                            <td>@movie.Name</td>
+                            <td>@movie.ReleaseYear</td>
+                            <td>@movie.Director</td>
+                            <td>@movie.Duration</td>
+                            <td>@movie.Genre</td>
+                            <td>@movie.Rating</td>
+                            <td>
+                                <div class="text-center d-flex justify-content-center mb-3">
+                                    <button class="btn btn-success" type="submit" id="js-move" data-movie-id="@movie.Id">Move to Watched</button><hr />
+                                </div>
+                                <div class="text-center d-flex justify-content-center">
+                                    <button class="btn btn-danger" type="submit" id="js-delete" data-movie-id="@movie.Id">Remove</button>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
     }
 </div>
+
+<!-- Trailer Modal -->
+<div class="modal fade" id="trailerModal" tabindex="-1" aria-labelledby="trailerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="trailerModalLabel">Movie Trailer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="ratio ratio-16x9">
+                    <iframe id="trailerFrame" src="" title="Trailer" allowfullscreen></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts{
 
@@ -128,8 +151,35 @@
                     }
                 })
             })
+            $("#tabela1").on("click", ".slika", function () {
+                const url = new URL($(this).data("trailer-url"));
+                let videoId = "";
+
+                if (url.hostname.includes("youtu.be")) {
+                    // short link
+                    videoId = url.pathname.slice(1);
+                } else {
+                    // regular link
+                    videoId = url.searchParams.get("v");
+                }
+
+                if (videoId) {
+                    $("#trailerFrame").attr("src", `https://www.youtube.com/embed/${videoId}`);
+                    new bootstrap.Modal(document.getElementById("trailerModal")).show();
+                } else {
+                    alert("Invalid trailer URL");
+                }
+            });
+            $('#trailerModal').on('hidden.bs.modal', function () {
+                // stop playback by removing the src
+                $('#trailerFrame').attr('src', '');
+            });
+
+
         })
+        
+
     </script>
-    
-    
-    }
+
+
+}

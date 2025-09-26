@@ -10,7 +10,7 @@
                 Choose a genre:<br />
             </div>
             <div class="row mb-3">
-                @Html.DropDownList("genre", new SelectList(new List<string> { "Romance", "Drama", "Action", "Thriller", "Comedy" }), "-- Select Genre --") <br />
+                @Html.DropDownList("genre", new SelectList(new List<string> { "Romance", "Drama", "Action", "Thriller", "Comedy" }), "-- Select Genre --", htmlAttributes: new { style = "cursor:pointer;" }) <br />
             </div>
             <div class="row mb-3 mt-3 text-center d-flex justify-content-center">
                 <button type="submit" id="button">Submit</button>
