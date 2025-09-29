@@ -41,7 +41,11 @@
         <h3 class="text-center mb-4">The film you should watch is...</h3>
         <div class="row align-items-center gx-4">
             <div class="col-md-12 d-flex justify-content-center" id="poster-wrapper">
-                <img data-bs-toggle="modal" style="cursor: pointer; max-height: 300px;" data-bs-target="#trailerModal" title="Click here to watch the trailer!" src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded mb-3" id="slikaVoPrikaz"  />
+                <img data-bs-toggle="modal" style="cursor: pointer; max-height: 300px;" src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded mb-3" id="slikaVoPrikaz" />
+               
+            </div>
+            <div class="col-md-12 d-flex justify-content-center" >
+                <button data-bs-toggle="modal" class="button1" id="trailerButton" data-bs-target="#trailerModal">Watch the Trailer</button>
             </div>
 
         </div>

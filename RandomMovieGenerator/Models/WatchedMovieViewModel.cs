@@ -14,7 +14,7 @@ namespace RandomMovieGenerator.Models
         public int ReleaseYear { get; set; }
         public string Director { get; set; }
         public int Duration { get; set; }
-        public float Rating { get; set; }     // global/avg rating
-        public int? YourRating { get; set; } // user-specific
+        public float Rating { get; set; }    
+        public int? YourRating { get; set; } 
     }
 }
