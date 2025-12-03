@@ -14,6 +14,4 @@ Random Movie Generator - генератор на филм според моја 
 
 Тој што е најавен како админ, може да додава филмови преку Create a film опцијата од навигациоионот панел.
 
-https://www.isidorandomoviegenerator.somee.com/
-
 Проект по предмет Интернет Технологии 2025
